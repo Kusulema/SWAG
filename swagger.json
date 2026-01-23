@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Простой API для демонстрации работы Swagger",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Разработчик"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/items": {
+      "get": {
+        "description": "Получить все элементы",
+        "responses": {
+          "200": {
+            "description": "Успешный ответ"
+          }
+        }
+      },
+      "post": {
+        "description": "Создать новый элемент",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Элемент создан"
+          }
+        }
+      }
+    },
+    "/items/{id}": {
+      "get": {
+        "description": "Получить элемент по ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешный ответ"
+          },
+          "404": {
+            "description": "Элемент не найден"
+          }
+        }
+      }
+    },
+    "/items/update": {
+      "put": {
+        "description": "Обновить существующий элемент",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Элемент обновлен"
+          },
+          "404": {
+            "description": "Элемент не найден"
+          }
+        }
+      }
+    },
+    
+
+    
+    "/status": {
+      "get": {
+        "description": "Проверить статус работы API",
+        "responses": {
+          "200": {
+            "description": "Сервер работает",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "OK",
+                  "timestamp": "2025-11-14T10:00:00.000Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/count": {
+      "get": {
+        "description": "Получить количество элементов в списке",
+        "responses": {
+          "200": {
+            "description": "Успешный ответ",
+            "content": {
+              "application/json": {
+                "example": {
+                  "count": 2
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/search": {
+      "get": {
+        "description": "Поиск элементов по части имени",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Часть имени для поиска"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Результаты поиска"
+          },
+          "400": {
+            "description": "Отсутствует query-параметр 'name'"
+          }
+        }
+      }
+    },
+    "/items/bulk": {
+      "post": {
+        "description": "Добавить несколько элементов одновременно",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["name"]
+                },
+                "example": [
+                  {"name": "Новый элемент 3"},
+                  {"name": "Новый элемент 4"}
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Элементы созданы"
+          },
+          "400": {
+            "description": "Неверный формат запроса"
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "description": "Создать нового пользователя",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                },
+                "required": ["username", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Пользователь создан"
+          },
+          "400": {
+            "description": "Отсутствуют необходимые поля"
+          }
+        }
+      }
+    },
+    "/items/clear": {
+      "post": {
+        "description": "Очистить весь список элементов",
+        "responses": {
+          "200": {
+            "description": "Список успешно очищен"
+          }
+        }
+      }
+    }
+  }
+}
